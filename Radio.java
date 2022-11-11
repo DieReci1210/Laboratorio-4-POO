@@ -3,8 +3,12 @@ import java.util.ArrayList;
 public class Radio implements RadioA{
     private boolean FMAM = false;
     private boolean estado = false;
+    private int volumen = 10;
+    private float emisora = (float)50.5;
+    private int indicecancion = 0;
+    private boolean telefono = false;
 
-    private ArrayList<Emisora> emisoras;
+    private ArrayList<Float> emisoras;
     private ArrayList<Contacto> contactos;
     private ArrayList<Cancion> canciones;
     
@@ -12,7 +16,7 @@ public class Radio implements RadioA{
     public Radio() {
     }
 
-    public Radio(boolean FMAM, boolean estado, ArrayList<Emisora> emisoras, ArrayList<Contacto> contactos, ArrayList<Cancion> canciones) {
+    public Radio(boolean FMAM, boolean estado, ArrayList<Float> emisoras, ArrayList<Contacto> contactos, ArrayList<Cancion> canciones) {
         this.FMAM = FMAM;
         this.estado = estado;
         this.emisoras = emisoras;
@@ -44,11 +48,61 @@ public class Radio implements RadioA{
         this.estado = estado;
     }
 
-    public ArrayList<Emisora> getEmisoras() {
+    /**
+     * @return float return the volumen
+     */
+    public int getVolumen() {
+        return volumen;
+    }
+
+    /**
+     * @param volumen the volumen to set
+     */
+    public void setVolumen(int volumen) {
+        this.volumen = volumen;
+    }
+
+    /**
+     * @return int return the indicecancion
+     */
+    public int getIndicecancion() {
+        return indicecancion;
+    }
+
+    /**
+     * @param indicecancion the indicecancion to set
+     */
+    public void setIndicecancion(int indicecancion) {
+        this.indicecancion = indicecancion;
+    }
+
+    /**
+     * @return boolean return the telefono
+     */
+    public boolean isTelefono() {
+        return telefono;
+    }
+
+    /**
+     * @param telefono the telefono to set
+     */
+    public void setTelefono(boolean telefono) {
+        this.telefono = telefono;
+    }
+
+    public float getEmisora() {
+        return emisora;
+    }
+
+    public void setEmisora(float emisora) {
+        this.emisora = emisora;
+    }
+
+    public ArrayList<Float> getEmisoras() {
         return this.emisoras;
     }
 
-    public void setEmisoras(ArrayList<Emisora> emisoras) {
+    public void setEmisoras(ArrayList<Float> emisoras) {
         this.emisoras = emisoras;
     }
 
@@ -78,7 +132,7 @@ public class Radio implements RadioA{
         return this;
     }
 
-    public Radio emisoras(ArrayList<Emisora> emisoras) {
+    public Radio emisoras(ArrayList<Float> emisoras) {
         setEmisoras(emisoras);
         return this;
     }
@@ -106,80 +160,109 @@ public class Radio implements RadioA{
 
     @Override
     public boolean encenderApagar() {
-        boolean estado;
-        
-        return false;
+        boolean estadodef;
+        if(this.estado == true){
+            estadodef = false;
+        }else{
+            estadodef = true;
+        }
+
+        return estadodef;
     }
 
     @Override
-    public void cambiarVolumen() {
-        // TODO Auto-generated method stub
-        
+    public int cambiarVolumen(int cantidad) {
+        cantidad += this.volumen;
+        return cantidad;
     }
-
+    
     @Override
     public boolean cambiarFMAM() {
-        // TODO Auto-generated method stub
-        return false;
+        boolean FMAMdef;
+        if(this.FMAM == true){
+            FMAMdef = false;
+        }else{
+            FMAMdef = true;
+        }
+        return FMAMdef;
     }
-
+ 
     @Override
-    public float cambiarEmisora() {
-        // TODO Auto-generated method stub
-        return 0;
+    public float cambiarEmisora(boolean masmenos) {
+        float emisoradef;
+        if(masmenos){
+            emisoradef = emisora+ (float)0.5;
+        }else{
+            emisoradef = emisora- (float)0.5;
+        }
+        return emisoradef;
     }
 
     @Override
     public void guardarEmisora() {
-        // TODO Auto-generated method stub
+        emisoras.add(this.emisora);
     }
 
     @Override
-    public String cargarEmisora() {
-        // TODO Auto-generated method stub
-        return null;
+    public float cargarEmisora(int indice) {
+        float emisoracargada = 0;
+        if(emisoras.size()<=indice+1){
+            emisoracargada = emisoras.get(indice);
+        }else{
+            emisoracargada = emisora;
+        }
+        return emisoracargada;
     }
 
     @Override
     public String seleccionarLista(int indice) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public String cambiarCancion() {
-        // TODO Auto-generated method stub
-        return null;
+    public String cambiarCancion(boolean masmenos) {
+        if(masmenos){
+            indicecancion = indicecancion+1;
+        }else{
+            indicecancion = indicecancion-1;
+        }
+        return canciones.get(indicecancion).getNombre();
     }
 
     @Override
     public String esucharCancion() {
-        // TODO Auto-generated method stub
-        return null;
+        return canciones.get(indicecancion).getNombre();
     }
 
     @Override
     public boolean ConectDesconectTelefono() {
-        // TODO Auto-generated method stub
-        return false;
+        boolean conect;
+        if(this.telefono == true){
+            conect = false;
+        }else{
+            conect = true;
+        }
+
+        return conect;
     }
 
     @Override
     public String MostrarContactos() {
-        // TODO Auto-generated method stub
-        return null;
+        String lista = null;
+        for (Contacto contacto : contactos) {
+            lista += contacto.getNombre() + "\n";
+        }
+        return lista;
     }
 
     @Override
-    public String LlamarContactos(String numcontacto) {
-        // TODO Auto-generated method stub
-        return null;
+    public String LlamarContactos(String nombrecontacto) {
+        return "En llamada con"+nombrecontacto;
     }
 
     @Override
     public String FinalizarLlamada() {
-        // TODO Auto-generated method stub
-        return null;
+        return "Llamada finalizada";
     }
 
     @Override
@@ -190,8 +273,7 @@ public class Radio implements RadioA{
 
     @Override
     public String PlanificarViajes(String texto) {
-        // TODO Auto-generated method stub
-        return null;
+        return "Se guardo la planificación";
     }
 
 }
