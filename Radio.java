@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class Radio implements RadioA{
-    private boolean FMAM;
-    private boolean estado;
+    private boolean FMAM = false;
+    private boolean estado = false;
 
     private ArrayList<Emisora> emisoras;
     private ArrayList<Contacto> contactos;
