@@ -1,7 +1,7 @@
 /**Universidad del Valle de Guatemala
  * Programacion orientada a objetos
  * Laboratorio 4
- * @author Diego Recinos @author Pablo Alvarez
+ * @author Diego Recinos @author Pablo Alvarado
 */
 import java.util.Scanner;
 
